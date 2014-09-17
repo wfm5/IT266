@@ -1,6 +1,6 @@
 #include "g_local.h"
 
-
+void monster_triggered_spawn (edict_t *self);
 /*
 =================
 check_dodge
@@ -379,10 +379,17 @@ fire_grenade
 static void Grenade_Explode (edict_t *ent)
 {
 	vec3_t		origin;
+	vec3_t		random;
+	edict_t			monster;
 	int			mod;
+
+	//random[0] =  crandom();
+	//random[1] =  crandom();
+	//random[2] =  crandom();
 
 	if (ent->owner->client)
 		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
+
 
 	//FIXME: if we are onground then raise our Z just a bit since we are a point?
 	if (ent->enemy)
@@ -418,7 +425,7 @@ static void Grenade_Explode (edict_t *ent)
 		if (ent->groundentity)
 			gi.WriteByte (TE_GRENADE_EXPLOSION_WATER);
 		else
-			gi.WriteByte (TE_ROCKET_EXPLOSION_WATER);
+		 	gi.WriteByte (TE_ROCKET_EXPLOSION_WATER);
 	}
 	else
 	{
@@ -429,12 +436,24 @@ static void Grenade_Explode (edict_t *ent)
 	}
 	gi.WritePosition (origin);
 	gi.multicast (ent->s.origin, MULTICAST_PHS);
-
-	G_FreeEdict (ent);
+	//Ready up a monster
+	//G_Spawn();
+	//monster->classname = "monster_gladiator";
+	fire_grenade (ent->owner, ent->s.origin, ent->velocity, 10, 10, 1, 5);
+	
+	//monster_triggered_spawn(monster);
+	G_FreeEdict(ent);
+	
 }
 
 static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
+	vec3_t		random;
+
+	random[0] =  crandom();
+	random[1] =  crandom();
+	random[2] =  crandom();
+
 	if (other == ent->owner)
 		return;
 
@@ -461,6 +480,8 @@ static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurfa
 	}
 
 	ent->enemy = other;
+	
+	
 	Grenade_Explode (ent);
 }
 
@@ -470,6 +491,7 @@ void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	vec3_t	dir;
 	vec3_t	forward, right, up;
 
+	gi.cprintf(self,PRINT_HIGH, "WillGrenMod \n");
 	vectoangles (aimdir, dir);
 	AngleVectors (dir, forward, right, up);
 
@@ -494,7 +516,9 @@ void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	grenade->dmg_radius = damage_radius;
 	grenade->classname = "grenade";
 
+	
 	gi.linkentity (grenade);
+	
 }
 
 void fire_grenade2 (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius, qboolean held)
