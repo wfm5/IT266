@@ -1,0 +1,8 @@
+﻿1>------ Build started: Project: game, Configuration: Debug Win32 ------
+1>  g_weapon.c
+1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(C:\Users\Megaman\Desktop\IT266\Quake2Src\src\.\..\debug\game.dll) does not match the Linker's OutputFile property value (C:\Users\Megaman\Desktop\IT266\Quake2Src\debug\gamex86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(game) does not match the Linker's OutputFile property value (gamex86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+1>g_ai.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+1>     Creating library .\..\debug\gamex86.lib and object .\..\debug\gamex86.exp
+1>  game.vcxproj -> C:\Users\Megaman\Desktop\IT266\Quake2Src\src\.\..\debug\game.dll
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========

@@ -380,12 +380,9 @@ static void Grenade_Explode (edict_t *ent)
 {
 	vec3_t		origin;
 	vec3_t		random;
-	edict_t			monster;
+	edict_t*	monster;
 	int			mod;
 
-	//random[0] =  crandom();
-	//random[1] =  crandom();
-	//random[2] =  crandom();
 
 	if (ent->owner->client)
 		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
@@ -397,7 +394,8 @@ static void Grenade_Explode (edict_t *ent)
 		float	points;
 		vec3_t	v;
 		vec3_t	dir;
-
+		
+		
 		VectorAdd (ent->enemy->mins, ent->enemy->maxs, v);
 		VectorMA (ent->enemy->s.origin, 0.5, v, v);
 		VectorSubtract (ent->s.origin, v, v);
@@ -435,25 +433,17 @@ static void Grenade_Explode (edict_t *ent)
 			gi.WriteByte (TE_ROCKET_EXPLOSION);
 	}
 	gi.WritePosition (origin);
-	gi.multicast (ent->s.origin, MULTICAST_PHS);
-	//Ready up a monster
-	//G_Spawn();
-	//monster->classname = "monster_gladiator";
-	fire_grenade (ent->owner, ent->s.origin, ent->velocity, 10, 10, 1, 5);
-	
-	//monster_triggered_spawn(monster);
-	G_FreeEdict(ent);
-	
+	gi.multicast (ent->s.origin, MULTICAST_PHS);	
+
+	ED_CallSpawn ();
+	monster_triggered_spawn(monster);
+
+	G_FreeEdict;
+
 }
 
 static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
-	vec3_t		random;
-
-	random[0] =  crandom();
-	random[1] =  crandom();
-	random[2] =  crandom();
-
 	if (other == ent->owner)
 		return;
 
@@ -480,7 +470,6 @@ static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurfa
 	}
 
 	ent->enemy = other;
-	
 	
 	Grenade_Explode (ent);
 }
