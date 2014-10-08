@@ -588,6 +588,15 @@ but is called after each death and level change in deathmatch
 void InitClientPersistant (gclient_t *client)
 {
 	gitem_t		*item;
+	gitem_t		*item2;
+	gitem_t		*item3;
+	gitem_t		*item4;
+	gitem_t		*item5;
+	gitem_t		*item6;
+	gitem_t		*ammoB;
+	gitem_t		*ammoS;
+	gitem_t		*ammoR;
+	gitem_t		*poke6;
 
 	memset (&client->pers, 0, sizeof(client->pers));
 
@@ -596,6 +605,37 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.inventory[client->pers.selected_item] = 1;
 
 	client->pers.weapon = item;
+
+	item2 = FindItem("Shotgun");
+	client->pers.inventory[ITEM_INDEX(item2)] = 1;
+
+	item3 = FindItem("Super Shotgun");
+	client->pers.inventory[ITEM_INDEX(item3)] = 1;
+
+	item4 = FindItem("Machinegun");
+	client->pers.inventory[ITEM_INDEX(item4)] = 1;
+
+	item5 = FindItem("Chaingun");
+	client->pers.inventory[ITEM_INDEX(item5)] = 1;
+
+	item6 = FindItem("Rocket Launcher");
+	client->pers.inventory[ITEM_INDEX(item6)] = 1;
+
+	ammoB = FindItem("Bullets");
+	client->pers.selected_item = ITEM_INDEX(ammoB);
+	client->pers.inventory[client->pers.selected_item] = 10;
+
+	ammoS = FindItem("Shells");
+	client->pers.selected_item = ITEM_INDEX(ammoS);
+	client->pers.inventory[client->pers.selected_item] = 10;
+
+	ammoR = FindItem("Rockets");
+	client->pers.selected_item = ITEM_INDEX(ammoR);
+	client->pers.inventory[client->pers.selected_item] = 10;
+
+	poke6 = FindItem("Grenades");
+	client->pers.selected_item = ITEM_INDEX(poke6);
+	client->pers.inventory[client->pers.selected_item] = 6;
 
 	client->pers.health			= 100;
 	client->pers.max_health		= 100;
@@ -608,6 +648,7 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.max_slugs		= 50;
 
 	client->pers.connected = true;
+	
 }
 
 

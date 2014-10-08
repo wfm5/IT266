@@ -3,7 +3,7 @@
 #include "g_local.h"
 #include "m_player.h"
 
-
+int		pokemon;
 static qboolean	is_quad;
 static byte		is_silenced;
 
@@ -773,8 +773,9 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		//ent->client->pers.inventory[ent->client->ammo_index]--;
+	gi.bprintf(PRINT_HIGH,"Medic \n");
 }
 
 void Weapon_RocketLauncher (edict_t *ent)
@@ -783,6 +784,7 @@ void Weapon_RocketLauncher (edict_t *ent)
 	static int	fire_frames[]	= {5, 0};
 
 	Weapon_Generic (ent, 4, 12, 50, 54, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
+	pokemon = 5;
 }
 
 
@@ -822,6 +824,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	gi.multicast (ent->s.origin, MULTICAST_PVS);
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
+	gi.bprintf(PRINT_HIGH,"BawssFlyer");
 }
 
 
@@ -830,11 +833,12 @@ void Weapon_Blaster_Fire (edict_t *ent)
 	int		damage;
 
 	if (deathmatch->value)
-		damage = 15;
+		damage = 0;
 	else
 		damage = 10;
 	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
 	ent->client->ps.gunframe++;
+	gi.bprintf(PRINT_HIGH,"FlyingBaws \n");
 }
 
 void Weapon_Blaster (edict_t *ent)
@@ -843,6 +847,8 @@ void Weapon_Blaster (edict_t *ent)
 	static int	fire_frames[]	= {5, 0};
 
 	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
+	pokemon = 1;
+	
 }
 
 
@@ -886,8 +892,8 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 			else
 				damage = 20;
 			Blaster_Fire (ent, offset, damage, true, effect);
-			if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-				ent->client->pers.inventory[ent->client->ammo_index]--;
+			//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+				//ent->client->pers.inventory[ent->client->ammo_index]--;
 
 			ent->client->anim_priority = ANIM_ATTACK;
 			if (ent->client->ps.pmove.pm_flags & PMF_DUCKED)
@@ -1001,8 +1007,8 @@ void Machinegun_Fire (edict_t *ent)
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		//ent->client->pers.inventory[ent->client->ammo_index]--;
 
 	ent->client->anim_priority = ANIM_ATTACK;
 	if (ent->client->ps.pmove.pm_flags & PMF_DUCKED)
@@ -1015,6 +1021,7 @@ void Machinegun_Fire (edict_t *ent)
 		ent->s.frame = FRAME_attack1 - (int) (random()+0.25);
 		ent->client->anim_end = FRAME_attack8;
 	}
+	gi.bprintf(PRINT_HIGH,"Mutant \n");
 }
 
 void Weapon_Machinegun (edict_t *ent)
@@ -1023,6 +1030,8 @@ void Weapon_Machinegun (edict_t *ent)
 	static int	fire_frames[]	= {4, 5, 0};
 
 	Weapon_Generic (ent, 3, 5, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
+	pokemon = 2;
+	
 }
 
 void Chaingun_Fire (edict_t *ent)
@@ -1140,8 +1149,9 @@ void Chaingun_Fire (edict_t *ent)
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index] -= shots;
+	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		//ent->client->pers.inventory[ent->client->ammo_index] -= shots;
+	gi.bprintf(PRINT_HIGH,"Infantry \n");
 }
 
 
@@ -1151,6 +1161,8 @@ void Weapon_Chaingun (edict_t *ent)
 	static int	fire_frames[]	= {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0};
 
 	Weapon_Generic (ent, 4, 31, 61, 64, pause_frames, fire_frames, Chaingun_Fire);
+	pokemon = 3;
+	
 }
 
 
@@ -1204,8 +1216,9 @@ void weapon_shotgun_fire (edict_t *ent)
 	ent->client->ps.gunframe++;
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		//ent->client->pers.inventory[ent->client->ammo_index]--;
+	gi.bprintf(PRINT_HIGH,"Brain \n");
 }
 
 void Weapon_Shotgun (edict_t *ent)
@@ -1214,6 +1227,7 @@ void Weapon_Shotgun (edict_t *ent)
 	static int	fire_frames[]	= {8, 9, 0};
 
 	Weapon_Generic (ent, 7, 18, 36, 39, pause_frames, fire_frames, weapon_shotgun_fire);
+	pokemon = 6;
 }
 
 
@@ -1258,8 +1272,9 @@ void weapon_supershotgun_fire (edict_t *ent)
 	ent->client->ps.gunframe++;
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index] -= 2;
+	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		//ent->client->pers.inventory[ent->client->ammo_index] -= 2;
+		gi.bprintf(PRINT_HIGH, "Gladiator \n");
 }
 
 void Weapon_SuperShotgun (edict_t *ent)
@@ -1268,6 +1283,7 @@ void Weapon_SuperShotgun (edict_t *ent)
 	static int	fire_frames[]	= {7, 0};
 
 	Weapon_Generic (ent, 6, 17, 57, 61, pause_frames, fire_frames, weapon_supershotgun_fire);
+	pokemon = 4;
 }
 
 
