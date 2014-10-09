@@ -278,7 +278,7 @@ qboolean visible (edict_t *self, edict_t *other)
 	trace = gi.trace (spot1, vec3_origin, vec3_origin, spot2, self, MASK_OPAQUE);
 	
 	if (trace.fraction == 1.0)
-		return false; //true;
+		return true;
 	return false;
 }
 

@@ -514,6 +514,11 @@ void monster_death_use (edict_t *self)
 
 qboolean monster_start (edict_t *self)
 {
+	if (deathmatch->value)
+	{
+		G_FreeEdict (self);
+		return false;
+	}
 
 	if ((self->spawnflags & 4) && !(self->monsterinfo.aiflags & AI_GOOD_GUY))
 	{
@@ -575,8 +580,6 @@ void monster_start_go (edict_t *self)
 		fixup = false;
 		while ((target = G_Find (target, FOFS(targetname), self->target)) != NULL)
 		{
-			if (target == self->owner)
-				 continue;
 			if (strcmp(target->classname, "point_combat") == 0)
 			{
 				self->combattarget = self->target;
@@ -601,8 +604,6 @@ void monster_start_go (edict_t *self)
 		target = NULL;
 		while ((target = G_Find (target, FOFS(targetname), self->combattarget)) != NULL)
 		{
-			if(target == self->owner)
-				continue;
 			if (strcmp(target->classname, "point_combat") != 0)
 			{
 				gi.dprintf("%s at (%i %i %i) has a bad combattarget %s : %s at (%i %i %i)\n",
@@ -615,8 +616,7 @@ void monster_start_go (edict_t *self)
 
 	if (self->target)
 	{
-		
-		//self->goalentity = self->movetarget = G_PickTargetIgnore(self->target,self->owner);
+		self->goalentity = self->movetarget = G_PickTarget(self->target);
 		if (!self->movetarget)
 		{
 			gi.dprintf ("%s can't find target %s at %s\n", self->classname, self->target, vtos(self->s.origin));

@@ -1,7 +1,5 @@
 #include "g_local.h"
 
-int		pokemon;
-int		poke_dead = 63;
 
 /*
 =================
@@ -370,7 +368,6 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 		VectorMA (bolt->s.origin, -10, dir, bolt->s.origin);
 		bolt->touch (bolt, tr.ent, NULL, NULL);
 	}
-
 }	
 
 
@@ -379,29 +376,10 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 fire_grenade
 =================
 */
-edict_t *Find_Nearest_Enemy(vec3_t origin, char *myTeam)
-{
-	edict_t *ent = NULL;
-	 while ((ent = findradius(ent, origin, 8192)) != NULL)
-	 {
-		if (ent->team == myTeam)
-			continue;
-		if (!ent->takedamage)
-			continue;
-		break;
-	 }
-	return ent;
-}
-
 static void Grenade_Explode (edict_t *ent)
 {
-	int			i;
 	vec3_t		origin;
 	int			mod;
-	edict_t		*poke;
-	edict_t		*target;
-	trace_t		tr;
-
 
 	if (ent->owner->client)
 		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
@@ -431,8 +409,7 @@ static void Grenade_Explode (edict_t *ent)
 		mod = MOD_HG_SPLASH;
 	else
 		mod = MOD_G_SPLASH;
-	//doesnt piss off other monsters and players
-	//T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
+	T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
 
 	VectorMA (ent->s.origin, -0.02, ent->velocity, origin);
 	gi.WriteByte (svc_temp_entity);
@@ -453,62 +430,7 @@ static void Grenade_Explode (edict_t *ent)
 	gi.WritePosition (origin);
 	gi.multicast (ent->s.origin, MULTICAST_PHS);
 
-	poke = G_Spawn();
-	VectorCopy(ent->s.origin,poke->s.origin);
-	poke->s.origin[2] += 25;
-	if(pokemon == 6 && (poke_dead & 32))
-	{
-		SP_monster_brain(poke);
-		poke_dead &= ~32; //(1 << 5) 
-	}
-	if(pokemon == 5)
-	{
-		SP_monster_medic(poke);
-		
-	}
-	if(pokemon == 4)
-	{
-		SP_monster_gladiator(poke);
-		
-	}
-	if(pokemon == 3)
-	{
-		SP_monster_infantry(poke);
-		
-	}
-	if (pokemon == 2)
-	{
-		SP_monster_mutant(poke);
-		
-	}	
-	if (pokemon == 1)
-	{
-		SP_monster_boss2(poke);
-		
-	}
-		for (i = 0;i < 10;i++)
-		{
-			tr = gi.trace(poke->s.origin,poke->mins,poke->maxs,ent->s.origin,ent,MASK_SHOT);
-			if (tr.fraction < 1)
-			{
-				VectorAdd(tr.plane.normal,poke->s.origin,poke->s.origin);
-			}
-			else
-			{
-				break;
-			}
-		}
-		if (i == 10)
-		{
-			G_FreeEdict(poke);
-		}
-	  else
-	  {
-			poke->team = ent->owner->team;
-			poke->owner = ent->owner;
-			gi.linkentity(poke);
-	  }
-		G_FreeEdict (ent);
+	G_FreeEdict (ent);
 }
 
 static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf)
@@ -663,7 +585,7 @@ void rocket_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *su
 		}
 	}
 
-	//T_RadiusDamage(ent, ent->owner, ent->radius_dmg, other, ent->dmg_radius, MOD_R_SPLASH);
+	T_RadiusDamage(ent, ent->owner, ent->radius_dmg, other, ent->dmg_radius, MOD_R_SPLASH);
 
 	gi.WriteByte (svc_temp_entity);
 	if (ent->waterlevel)

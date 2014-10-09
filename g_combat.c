@@ -15,7 +15,6 @@ qboolean CanDamage (edict_t *targ, edict_t *inflictor)
 	vec3_t	dest;
 	trace_t	trace;
 
-	//if ((targ->client) && strcomp(targ->client->pers.netname))
 // bmodels need special checking because their origin is 0,0,0
 	if (targ->movetype == MOVETYPE_PUSH)
 	{
