@@ -151,6 +151,7 @@ void GladiatorGun (edict_t *self)
 	vec3_t	start;
 	vec3_t	dir;
 	vec3_t	forward, right;
+	int		dmg;
 
 	AngleVectors (self->s.angles, forward, right, NULL);
 	G_ProjectSource (self->s.origin, monster_flash_offset[MZ2_GLADIATOR_RAILGUN_1], forward, right, start);
@@ -158,8 +159,13 @@ void GladiatorGun (edict_t *self)
 	// calc direction to where we targted
 	VectorSubtract (self->pos1, start, dir);
 	VectorNormalize (dir);
-
-	monster_fire_railgun (self, start, dir, 50, 100, MZ2_GLADIATOR_RAILGUN_1);
+	dmg = 50;
+	if (self->health < (self->max_health / 2))
+	{
+		dmg += 30;
+		gi.bprintf(PRINT_HIGH, "Gladiator damage increased by 30");
+	}
+	monster_fire_railgun (self, start, dir, dmg, 100, MZ2_GLADIATOR_RAILGUN_1);
 }
 
 mframe_t gladiator_frames_attack_gun [] =
@@ -338,7 +344,7 @@ void SP_monster_gladiator (edict_t *self)
 	VectorSet (self->mins, -32, -32, -24);
 	VectorSet (self->maxs, 32, 32, 64);
 
-	self->health = 400;
+	self->health = 2000;
 	self->gib_health = -175;
 	self->mass = 400;
 

@@ -483,6 +483,8 @@ void boss2_dead (edict_t *self)
 	self->svflags |= SVF_DEADMONSTER;
 	self->nextthink = 0;
 	gi.linkentity (self);
+	
+	
 }
 
 void boss2_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
@@ -491,6 +493,7 @@ void boss2_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage
 	self->deadflag = DEAD_DEAD;
 	self->takedamage = DAMAGE_NO;
 	self->count = 0;
+
 	self->monsterinfo.currentmove = &boss2_move_death;
 #if 0
 	int		n;
@@ -631,7 +634,8 @@ void SP_monster_boss2 (edict_t *self)
 	VectorSet (self->mins, -56, -56, 0);
 	VectorSet (self->maxs, 56, 56, 80);
 
-	self->health = 2000;
+	self->health = 7000;
+	gi.bprintf(PRINT_HIGH, "Boss2 is getting hyped for revenge! \n");
 	self->gib_health = -200;
 	self->mass = 1000;
 

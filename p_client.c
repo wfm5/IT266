@@ -597,9 +597,12 @@ void InitClientPersistant (gclient_t *client)
 	gitem_t		*ammoS;
 	gitem_t		*ammoR;
 	gitem_t		*poke6;
+	gitem_t		*armor;
 
 	memset (&client->pers, 0, sizeof(client->pers));
 
+	client->poke_dead = 63;
+	
 	item = FindItem("Blaster");
 	client->pers.selected_item = ITEM_INDEX(item);
 	client->pers.inventory[client->pers.selected_item] = 1;
@@ -637,8 +640,12 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.selected_item = ITEM_INDEX(poke6);
 	client->pers.inventory[client->pers.selected_item] = 6;
 
-	client->pers.health			= 100;
-	client->pers.max_health		= 100;
+	armor = FindItem("Body Armor");
+	client->pers.selected_item = ITEM_INDEX(armor);
+	client->pers.inventory[client->pers.selected_item] = 200;
+
+	client->pers.health			= 500;
+	client->pers.max_health		= 500;
 
 	client->pers.max_bullets	= 200;
 	client->pers.max_shells		= 100;
@@ -657,6 +664,7 @@ void InitClientResp (gclient_t *client)
 	memset (&client->resp, 0, sizeof(client->resp));
 	client->resp.enterframe = level.framenum;
 	client->resp.coop_respawn = client->pers;
+	
 }
 
 /*
@@ -1273,7 +1281,8 @@ void PutClientInServer (edict_t *ent)
 	}
 
 	gi.linkentity (ent);
-
+	client->poke_dead = 63;
+	gi.bprintf(PRINT_HIGH, "poke reloaded. \n");
 	// force the current weapon up
 	client->newweapon = client->pers.weapon;
 	ChangeWeapon (ent);
@@ -1295,7 +1304,7 @@ void ClientBeginDeathmatch (edict_t *ent)
 
 	// locate ent at a spawn point
 	PutClientInServer (ent);
-
+	ent->client->poke_dead = 63;
 	if (level.intermissiontime)
 	{
 		MoveClientToIntermission (ent);
@@ -1599,6 +1608,7 @@ This will be called once for each client frame, which will
 usually be a couple times for each server frame.
 ==============
 */
+//GOD MODE CHECK
 void ClientThink (edict_t *ent, usercmd_t *ucmd)
 {
 	gclient_t	*client;

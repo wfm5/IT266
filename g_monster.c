@@ -603,6 +603,7 @@ void monster_start_go (edict_t *self)
 		{
 			if(target == self->owner)
 				continue;
+
 			if (strcmp(target->classname, "point_combat") != 0)
 			{
 				gi.dprintf("%s at (%i %i %i) has a bad combattarget %s : %s at (%i %i %i)\n",
@@ -616,7 +617,7 @@ void monster_start_go (edict_t *self)
 	if (self->target)
 	{
 		
-		//self->goalentity = self->movetarget = G_PickTargetIgnore(self->target,self->owner);
+		self->goalentity = self->movetarget = G_PickTargetIgnore(self->target,self->owner);
 		if (!self->movetarget)
 		{
 			gi.dprintf ("%s can't find target %s at %s\n", self->classname, self->target, vtos(self->s.origin));

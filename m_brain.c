@@ -525,7 +525,10 @@ void brain_pain (edict_t *self, edict_t *other, float kick, int damage)
 	float	r;
 
 	if (self->health < (self->max_health / 2))
+	{	
 		self->s.skinnum = 1;
+		fire_rocket (self, self->s.origin, self->move_angles, 20, 550, 120, 120);
+	}	
 
 	if (level.time < self->pain_debounce_time)
 		return;
@@ -591,6 +594,8 @@ void brain_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage
 	gi.sound (self, CHAN_VOICE, sound_death, 1, ATTN_NORM, 0);
 	self->deadflag = DEAD_DEAD;
 	self->takedamage = DAMAGE_YES;
+	fire_rocket (self, self->s.origin, point, 20, 550, 120, 120);
+
 	if (random() <= 0.5)
 		self->monsterinfo.currentmove = &brain_move_death1;
 	else
@@ -624,7 +629,7 @@ void SP_monster_brain (edict_t *self)
 	VectorSet (self->mins, -16, -16, -24);
 	VectorSet (self->maxs, 16, 16, 32);
 
-	self->health = 300;
+	self->health = 1500;
 	self->gib_health = -150;
 	self->mass = 400;
 

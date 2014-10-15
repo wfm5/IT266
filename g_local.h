@@ -483,7 +483,6 @@ extern	int	body_armor_index;
 
 extern	int	meansOfDeath;
 
-
 extern	edict_t			*g_edicts;
 
 #define	FOFS(x) (int)&(((edict_t *)0)->x)
@@ -869,6 +868,9 @@ struct gclient_s
 	client_persistant_t	pers;
 	client_respawn_t	resp;
 	pmove_state_t		old_pmove;	// for detecting out-of-pmove changes
+
+	int			pokemon;	//choose one
+	int			poke_dead;
 
 	qboolean	showscores;			// set layout stat
 	qboolean	showinventory;		// set layout stat

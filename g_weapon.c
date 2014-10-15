@@ -1,7 +1,8 @@
 #include "g_local.h"
 
-int		pokemon;
-int		poke_dead = 63;
+
+extern struct gclient_s;
+
 
 /*
 =================
@@ -422,7 +423,8 @@ static void Grenade_Explode (edict_t *ent)
 			mod = MOD_HANDGRENADE;
 		else
 			mod = MOD_GRENADE;
-		T_Damage (ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin, (int)points, (int)points, DAMAGE_RADIUS, mod);
+		//no dmg pls
+		//T_Damage (ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin, (int)points, (int)points, DAMAGE_RADIUS, mod);
 	}
 
 	if (ent->spawnflags & 2)
@@ -456,35 +458,36 @@ static void Grenade_Explode (edict_t *ent)
 	poke = G_Spawn();
 	VectorCopy(ent->s.origin,poke->s.origin);
 	poke->s.origin[2] += 25;
-	if(pokemon == 6 && (poke_dead & 32))
+	if(ent->owner->client->pokemon == 6 && (ent->owner->client->poke_dead & 32))
 	{
 		SP_monster_brain(poke);
-		poke_dead &= ~32; //(1 << 5) 
+		ent->owner->client->poke_dead &= ~32; //(1 << 5) 
 	}
-	if(pokemon == 5)
+	if(ent->owner->client->pokemon == 5 && (ent->owner->client->poke_dead & 16))
 	{
 		SP_monster_medic(poke);
-		
+		ent->owner->client->poke_dead &= ~16;
 	}
-	if(pokemon == 4)
+	if(ent->owner->client->pokemon == 4 && (ent->owner->client->poke_dead & 8))
 	{
 		SP_monster_gladiator(poke);
-		
+		ent->owner->client->poke_dead &= ~8;
 	}
-	if(pokemon == 3)
+	if(ent->owner->client->pokemon == 3 && (ent->owner->client->poke_dead & 4))
 	{
 		SP_monster_infantry(poke);
-		
+		ent->owner->client->poke_dead &= ~4;
 	}
-	if (pokemon == 2)
+	if (ent->owner->client->pokemon == 2 && (ent->owner->client->poke_dead & 2))
 	{
 		SP_monster_mutant(poke);
-		
-	}	
-	if (pokemon == 1)
+		ent->owner->client->poke_dead &= ~2;
+	}
+	if (ent->owner->client->pokemon == 1 && (ent->owner->client->poke_dead & 1))
 	{
 		SP_monster_boss2(poke);
-		
+		ent->owner->client->poke_dead &= ~1;
+		gi.bprintf(PRINT_HIGH,"BawsFlyer summoned");
 	}
 		for (i = 0;i < 10;i++)
 		{
@@ -663,7 +666,7 @@ void rocket_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *su
 		}
 	}
 
-	//T_RadiusDamage(ent, ent->owner, ent->radius_dmg, other, ent->dmg_radius, MOD_R_SPLASH);
+	T_RadiusDamage(ent, ent->owner, ent->radius_dmg, other, ent->dmg_radius, MOD_R_SPLASH);
 
 	gi.WriteByte (svc_temp_entity);
 	if (ent->waterlevel)

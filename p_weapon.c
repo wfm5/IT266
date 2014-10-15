@@ -3,7 +3,6 @@
 #include "g_local.h"
 #include "m_player.h"
 
-int		pokemon;
 static qboolean	is_quad;
 static byte		is_silenced;
 
@@ -776,6 +775,7 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		//ent->client->pers.inventory[ent->client->ammo_index]--;
 	gi.bprintf(PRINT_HIGH,"Medic \n");
+	ent->client->pokemon = 5;
 }
 
 void Weapon_RocketLauncher (edict_t *ent)
@@ -784,7 +784,7 @@ void Weapon_RocketLauncher (edict_t *ent)
 	static int	fire_frames[]	= {5, 0};
 
 	Weapon_Generic (ent, 4, 12, 50, 54, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
-	pokemon = 5;
+	
 }
 
 
@@ -824,7 +824,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	gi.multicast (ent->s.origin, MULTICAST_PVS);
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
-	gi.bprintf(PRINT_HIGH,"BawssFlyer");
+	gi.bprintf(PRINT_HIGH,"Bawss2");
 }
 
 
@@ -833,12 +833,13 @@ void Weapon_Blaster_Fire (edict_t *ent)
 	int		damage;
 
 	if (deathmatch->value)
-		damage = 0;
+		damage = 250;
 	else
 		damage = 10;
 	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
 	ent->client->ps.gunframe++;
-	gi.bprintf(PRINT_HIGH,"FlyingBaws \n");
+
+	ent->client->pokemon = 1;
 }
 
 void Weapon_Blaster (edict_t *ent)
@@ -847,8 +848,7 @@ void Weapon_Blaster (edict_t *ent)
 	static int	fire_frames[]	= {5, 0};
 
 	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
-	pokemon = 1;
-	
+
 }
 
 
@@ -943,7 +943,7 @@ void Machinegun_Fire (edict_t *ent)
 	vec3_t		start;
 	vec3_t		forward, right;
 	vec3_t		angles;
-	int			damage = 8;
+	int			damage = 75;
 	int			kick = 2;
 	vec3_t		offset;
 
@@ -1021,6 +1021,7 @@ void Machinegun_Fire (edict_t *ent)
 		ent->s.frame = FRAME_attack1 - (int) (random()+0.25);
 		ent->client->anim_end = FRAME_attack8;
 	}
+	ent->client->pokemon = 2;
 	gi.bprintf(PRINT_HIGH,"Mutant \n");
 }
 
@@ -1030,7 +1031,7 @@ void Weapon_Machinegun (edict_t *ent)
 	static int	fire_frames[]	= {4, 5, 0};
 
 	Weapon_Generic (ent, 3, 5, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
-	pokemon = 2;
+	
 	
 }
 
@@ -1046,7 +1047,7 @@ void Chaingun_Fire (edict_t *ent)
 	int			kick = 2;
 
 	if (deathmatch->value)
-		damage = 6;
+		damage = 50;
 	else
 		damage = 8;
 
@@ -1152,6 +1153,7 @@ void Chaingun_Fire (edict_t *ent)
 	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		//ent->client->pers.inventory[ent->client->ammo_index] -= shots;
 	gi.bprintf(PRINT_HIGH,"Infantry \n");
+	ent->client->pokemon = 3;
 }
 
 
@@ -1161,7 +1163,7 @@ void Weapon_Chaingun (edict_t *ent)
 	static int	fire_frames[]	= {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0};
 
 	Weapon_Generic (ent, 4, 31, 61, 64, pause_frames, fire_frames, Chaingun_Fire);
-	pokemon = 3;
+	
 	
 }
 
@@ -1179,7 +1181,7 @@ void weapon_shotgun_fire (edict_t *ent)
 	vec3_t		start;
 	vec3_t		forward, right;
 	vec3_t		offset;
-	int			damage = 4;
+	int			damage = 300;
 	int			kick = 8;
 
 	if (ent->client->ps.gunframe == 9)
@@ -1219,6 +1221,7 @@ void weapon_shotgun_fire (edict_t *ent)
 	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		//ent->client->pers.inventory[ent->client->ammo_index]--;
 	gi.bprintf(PRINT_HIGH,"Brain \n");
+	ent->client->pokemon = 6;
 }
 
 void Weapon_Shotgun (edict_t *ent)
@@ -1227,7 +1230,7 @@ void Weapon_Shotgun (edict_t *ent)
 	static int	fire_frames[]	= {8, 9, 0};
 
 	Weapon_Generic (ent, 7, 18, 36, 39, pause_frames, fire_frames, weapon_shotgun_fire);
-	pokemon = 6;
+	
 }
 
 
@@ -1237,7 +1240,7 @@ void weapon_supershotgun_fire (edict_t *ent)
 	vec3_t		forward, right;
 	vec3_t		offset;
 	vec3_t		v;
-	int			damage = 6;
+	int			damage = 400;
 	int			kick = 12;
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
@@ -1275,6 +1278,7 @@ void weapon_supershotgun_fire (edict_t *ent)
 	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		//ent->client->pers.inventory[ent->client->ammo_index] -= 2;
 		gi.bprintf(PRINT_HIGH, "Gladiator \n");
+		ent->client->pokemon = 4;
 }
 
 void Weapon_SuperShotgun (edict_t *ent)
@@ -1283,7 +1287,7 @@ void Weapon_SuperShotgun (edict_t *ent)
 	static int	fire_frames[]	= {7, 0};
 
 	Weapon_Generic (ent, 6, 17, 57, 61, pause_frames, fire_frames, weapon_supershotgun_fire);
-	pokemon = 4;
+	
 }
 
 
@@ -1306,7 +1310,7 @@ void weapon_railgun_fire (edict_t *ent)
 
 	if (deathmatch->value)
 	{	// normal damage is too extreme in dm
-		damage = 100;
+		damage = 1000;
 		kick = 200;
 	}
 	else
@@ -1369,7 +1373,7 @@ void weapon_bfg_fire (edict_t *ent)
 	float	damage_radius = 1000;
 
 	if (deathmatch->value)
-		damage = 200;
+		damage = 5000;
 	else
 		damage = 500;
 

@@ -302,10 +302,15 @@ void mutant_jump_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface
 			vec3_t	normal;
 			int		damage;
 
+			damage = 40;
+			if(self->health <= ((self->health)/2))
+			{
+				damage *= 4;
+			}
 			VectorCopy (self->velocity, normal);
 			VectorNormalize(normal);
 			VectorMA (self->s.origin, self->maxs[0], normal, point);
-			damage = 40 + 10 * random();
+			damage += 10 * random();
 			T_Damage (other, self, self, self->velocity, point, normal, damage, damage, 0, MOD_UNKNOWN);
 		}
 	}
@@ -612,7 +617,7 @@ void SP_monster_mutant (edict_t *self)
 	VectorSet (self->mins, -32, -32, -24);
 	VectorSet (self->maxs, 32, 32, 48);
 
-	self->health = 300;
+	self->health = 2000;
 	self->gib_health = -120;
 	self->mass = 300;
 

@@ -199,7 +199,11 @@ void infantry_pain (edict_t *self, edict_t *other, float kick, int damage)
 
 	if (self->health < (self->max_health / 2))
 		self->s.skinnum = 1;
-
+	if (self->health < (self->max_health / 2))
+	{
+		self->health += 50;
+		gi.bprintf(PRINT_HIGH, "Infantry gained 50hp");
+	}
 	if (level.time < self->pain_debounce_time)
 		return;
 
@@ -558,7 +562,7 @@ void SP_monster_infantry (edict_t *self)
 	VectorSet (self->mins, -16, -16, -24);
 	VectorSet (self->maxs, 16, 16, 32);
 
-	self->health = 100;
+	self->health = 1000;
 	self->gib_health = -40;
 	self->mass = 200;
 

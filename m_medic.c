@@ -419,7 +419,8 @@ void medic_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage
 	gi.sound (self, CHAN_VOICE, sound_die, 1, ATTN_NORM, 0);
 	self->deadflag = DEAD_DEAD;
 	self->takedamage = DAMAGE_YES;
-
+	self->owner->client->poke_dead = 47;
+	gi.bprintf(PRINT_HIGH, "Medic gave it's life for the cause and revived his team!");
 	self->monsterinfo.currentmove = &medic_move_death;
 }
 
@@ -718,7 +719,7 @@ void SP_monster_medic (edict_t *self)
 	VectorSet (self->mins, -24, -24, -24);
 	VectorSet (self->maxs, 24, 24, 32);
 
-	self->health = 300;
+	self->health = 1000;
 	self->gib_health = -130;
 	self->mass = 400;
 
