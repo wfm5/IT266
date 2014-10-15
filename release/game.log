@@ -1,10 +1,10 @@
-﻿Build started 10/15/2014 12:27:18 AM.
+﻿Build started 10/15/2014 12:43:03 AM.
      1>Project "C:\Users\Megaman\Desktop\IT266\Quake2Src\src\game.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching ".\release\game.unsuccessfulbuild".
+         Creating ".\release\game.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\VC\bin\CL.exe /c /Z7 /nologo /W1 /WX- /O2 /Ob1 /Oy- /D WIN32 /D NDEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _WINDLL /GF /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\release\\" /Fd".\release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt m_mutant.c
-         m_mutant.c
+         c:\Program Files (x86)\VC\bin\CL.exe /c /Z7 /nologo /W1 /WX- /O2 /Ob1 /Oy- /D WIN32 /D NDEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _WINDLL /GF /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\release\\" /Fd".\release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt g_weapon.c
+         g_weapon.c
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(C:\Users\Megaman\Desktop\IT266\Quake2Src\src\.\..\release\game.dll) does not match the Linker's OutputFile property value (C:\Users\Megaman\Desktop\IT266\Quake2Src\release\gamex86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(game) does not match the Linker's OutputFile property value (gamex86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
        Link:
@@ -67,4 +67,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.64
+Time Elapsed 00:00:00.36

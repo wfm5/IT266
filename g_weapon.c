@@ -283,7 +283,7 @@ void fire_shotgun (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int k
 /*
 =================
 fire_blaster
-
+??
 Fires a single blaster bolt.  Used by the blaster and hyper blaster.
 =================
 */
